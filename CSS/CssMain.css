@@ -1,8 +1,13 @@
+body{
+    text-align: center;
+}
+
 #canvas{
-    /* margin-top: 15vh;
-	margin-left: 20vw;
-	background: black;
-	outline: 1px solid white; */
-            border: solid;
-            border-color: green;
+    background: black;
+    border: solid;
+    border-color: green;
+}
+
+h1{
+    text-align: center;
 }
