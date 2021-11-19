@@ -1,5 +1,9 @@
 body{
     text-align: center;
+    background-image: url(/CSS/raquetas.jpg);
+    background-size: cover;
+
+
 }
 
 #canvas{
