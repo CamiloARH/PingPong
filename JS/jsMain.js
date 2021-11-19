@@ -31,12 +31,22 @@
 		this.speed = 3;
 
 		board.ball = this;
-		this.kind = "circle";	
+		this.kind = "circle";
+			
 	}
+	
 	self.Ball.prototype = {
 		move: function(){
 			this.x += (this.speed_x * this.direction);
 			this.y += (this.speed_y);
+			if (this.y <= 10) {
+				this.speed_y = -this.speed_y;
+				this.bounce_angle = -this.bounce_angle;
+			}
+			if (this.y >= 390) {
+				this.speed_y = -this.speed_y;
+				this.bounce_angle = -this.bounce_angle;
+			}
 		},
 		get width(){
 			return this.radius * 2;
@@ -54,6 +64,7 @@
 
 			if(this.x > (this.board.width / 2)) this.direction = -1;
 			else this.direction = 1;
+			
 		}
 	}
 })();
@@ -162,7 +173,7 @@ var bar = new Bar(2,130,20,100,board);
 var bar_2 = new Bar(778,130,20,100,board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas,board);
-var ball = new Ball(350, 100, 10,board);
+var ball = new Ball(350, 180, 10,board);
 
 document.addEventListener("keydown",function(ev){
 	if(ev.keyCode == 38){
