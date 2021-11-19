@@ -1,3 +1,6 @@
+var marcador1 = document.getElementById("Puntaje1");
+var marcador2 = document.getElementById("Puntaje2");
+
 (function(){
 	self.Board = function(width,height){
 		this.width = width;
@@ -17,6 +20,7 @@
 		}
 	}
 })();
+
 (function(){
 	self.Ball = function(x,y,radius,board){
 		this.x = x;
@@ -28,7 +32,7 @@
 		this.direction = -1;
 		this.bounce_angle = 0;
 		this.max_bounce_angle = Math.PI / 12;
-		this.speed = 3;
+		this.speed = 5;
 
 		board.ball = this;
 		this.kind = "circle";
@@ -47,7 +51,22 @@
 				this.speed_y = -this.speed_y;
 				this.bounce_angle = -this.bounce_angle;
 			}
+
+			if (ball.x <= 0){
+				ball.x= 790;
+				score2 += 1
+1
+			}
+			if (ball.x >=800){
+				ball.x= 10;
+				score1 += 1
+			}
+		
+			marcador1.innerHTML = "Jugador 1: " + score1;
+			marcador2.innerHTML = "Jugador 2: " + score2;
 		},
+
+		
 		get width(){
 			return this.radius * 2;
 		},
@@ -58,7 +77,6 @@
 			var relative_intersect_y = ( bar.y + (bar.height / 2) ) - this.y;
 			var normalized_intersect_y = relative_intersect_y / (bar.height / 2);
 			this.bounce_angle = normalized_intersect_y * this.max_bounce_angle;
-			console.log(this.bounce_angle);
 			this.speed_y = this.speed * -Math.sin(this.bounce_angle);
 			this.speed_x = this.speed * Math.cos(this.bounce_angle);
 
@@ -77,7 +95,7 @@
 		this.board = board;
 		this.board.bars.push(this);
 		this.kind = "rectangle";
-		this.speed = 5;
+		this.speed = 10;
 	}
 
 	self.Bar.prototype = {
@@ -167,31 +185,44 @@
 		}	
 	}
 })();
-
+var score1=0;
+var score2=0;
 var board = new Board(800,400);
 var bar = new Bar(2,130,20,100,board);
 var bar_2 = new Bar(778,130,20,100,board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas,board);
-var ball = new Ball(350, 180, 10,board);
+var ball = new Ball(400, 180, 10,board);
+var puntaje1 = new component("16px", "Consolas", "white", 200, 25, "text");
+var puntaje2 = new component("16px", "Consolas", "white", 410, 25, "text");
 
 document.addEventListener("keydown",function(ev){
-	if(ev.keyCode == 38){
+	if (ev.keyCode == 38) {
 		ev.preventDefault();
-		bar.up();
+		if (bar_2.y >= 10) {
+			bar_2.up(); 
+		}
 	}
-	else if(ev.keyCode == 40){
+	else if (ev.keyCode == 40) {
 		ev.preventDefault();
-		bar.down();
-	}else if(ev.keyCode === 87){
+		if (bar_2.y <= 290) {
+			bar_2.down(); 
+		}
+	}
+	else if (ev.keyCode == 87) {
+		//Tecla W
 		ev.preventDefault();
-		// tecla W
-		bar_2.up();
-	}else if(ev.keyCode === 83){
+		if (bar.y >= 10) {
+			bar.up(); 
+		}
+	}
+	else if (ev.keyCode == 83) {
+		//tecla S
 		ev.preventDefault();
-		// tecla S
-		bar_2.down();
-	}else if(ev.keyCode === 32){
+		if (bar.y <= 290) {
+			bar.down(); 
+		}
+	} else if (ev.keyCode == 32) {
 		ev.preventDefault();
 		board.playing = !board.playing;
 	}
@@ -204,3 +235,19 @@ function controller(){
 	board_view.play();
 	requestAnimationFrame(controller);
 }
+
+function component(width, height, color, x, y, type) {
+	this.type = type;
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	this.speedX = 0;
+	this.speedY = 0;
+	
+}
+/* puntaje1.text = "Jugador 1: " + score1;
+console.log(puntaje1.text)
+
+puntaje2.text = "Jugador 2: " + score2;
+console.log(puntaje2.text) */
